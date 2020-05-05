@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float velocity;
+    public float smooothingTime;
+    Vector3 smoothingVelocity;
 
     float input_h;
 
 
     Rigidbody2D rb;
     Animator anim;
-    SpriteRenderer spriteRenderer;
     
 
     // Start is called before the first frame update
@@ -19,39 +20,37 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         input_h = Input.GetAxisRaw("Horizontal");
+        Animate();
     }
 
     private void FixedUpdate()
     {
         Move();
-        Animate();
     }
 
     void Move()
     {
-        Vector2 vel = rb.velocity;
-        vel.x = velocity * input_h;
-        rb.velocity = vel;
+        Vector3 targetVelocity = new Vector2(input_h * velocity*Time.fixedDeltaTime, rb.velocity.y);
+        rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref smoothingVelocity, smooothingTime);
     }
 
     void Animate()
     {
         if(input_h<0)
         {
-            spriteRenderer.flipX = true;
+            transform.localScale = -2 * Vector3.right + Vector3.one;
         }
         else if(input_h>0)
         {
-            spriteRenderer.flipX = false;
+            transform.localScale = Vector3.one;
         }
-        anim.SetFloat("Velocity_X", Mathf.Abs(input_h));
+        anim.SetFloat("Velocity_X", Mathf.Abs(rb.velocity.x));
         anim.SetFloat("Velocity_Y", rb.velocity.y);
     }
 }
