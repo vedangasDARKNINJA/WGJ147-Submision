@@ -10,6 +10,7 @@ public enum PLATFORM_MODE
     CYCLIC
 }
 
+
 public class AutomatedPlatform : MonoBehaviour
 {
     /****************** VISUALS *******************/
@@ -18,9 +19,11 @@ public class AutomatedPlatform : MonoBehaviour
     GameObject platformPrefab;
     [SerializeField]
     GameObject chainPrefab;
-    [SerializeField]
-    GameObject operatorSwitch;
-    ToggleSwitch toggleSwitch;
+    
+    public GameObject operatorSwitchPrefab;
+    [HideInInspector]
+    public GameObject operatorSwitchInstance;
+
 
     public float chainDistance;
 
@@ -28,12 +31,14 @@ public class AutomatedPlatform : MonoBehaviour
     Transform platformInstance;
     Animator animator;
 
+    public bool switchOperated;  
+    public int switchId=0;
     /***************** PLATFORM *********************/
 
     //PLATFORM PARAMS
     public float speed;
-    public bool activated;
-    public bool switchOperated;
+    bool activated;
+    
     public PLATFORM_MODE mode;
 
     public float snapAngle = 45;
@@ -119,6 +124,10 @@ public class AutomatedPlatform : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(switchOperated)
+        {
+            GameEvents.current.onSwitchStateChanged += OnSwitchStateChanged;
+        }
         platformInstance = Instantiate(platformPrefab,pathPoints[0].startPoint,Quaternion.identity,transform).transform;
         animator = platformInstance.GetComponent<Animator>();
         foreach(PathInfo p in pathPoints)
@@ -128,8 +137,10 @@ public class AutomatedPlatform : MonoBehaviour
                 GameObject obj = Instantiate(chainPrefab,chain, Quaternion.identity, transform);
             }
         }
-        if (activated && !switchOperated)
+        
+        if(!switchOperated)
         {
+            activated = true;
             currentCoroutine = MovePlatform();
             StartCoroutine(currentCoroutine);
         }
@@ -139,9 +150,21 @@ public class AutomatedPlatform : MonoBehaviour
     void Update()
     {
         animator.SetBool("activate", activated);
-        if(switchOperated)
-        {
+    }
 
+    void OnSwitchStateChanged(int id,bool state)
+    {
+        Debug.Log("SwitchChange event");
+        if(this.switchId == id)
+        {
+            activated = state;
+            Debug.Log("activated: " + activated);
+            if (currentCoroutine != null)
+            {
+                StopCoroutine(currentCoroutine);
+            }
+            currentCoroutine = MovePlatform();
+            StartCoroutine(currentCoroutine);
         }
     }
 
@@ -150,7 +173,10 @@ public class AutomatedPlatform : MonoBehaviour
         Vector3 pos = new Vector3(pathPoints[nextIndex].startPoint.x, pathPoints[nextIndex].startPoint.y, transform.position.z);
         while ( platformInstance.position != pos)
         {
-            platformInstance.position = Vector3.MoveTowards(platformInstance.position, pathPoints[nextIndex].startPoint, speed*Time.deltaTime);
+            if (activated)
+            {
+                platformInstance.position = Vector3.MoveTowards(platformInstance.position, pathPoints[nextIndex].startPoint, speed * Time.deltaTime);
+            }
             yield return null;
         }
         NextIndex();
@@ -193,6 +219,11 @@ public class AutomatedPlatform : MonoBehaviour
             for(int i=0;i*chainSeparation <= dist;i++)
             {
                 chainPoints.Add(startPoint + (i * chainSeparation) * dir);
+            }
+
+            if(Vector2.Distance(chainPoints[chainPoints.Count - 1],nextPoint)<chainSeparation/2)
+            {
+                chainPoints.RemoveAt(chainPoints.Count - 1);
             }
 
         }

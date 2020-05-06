@@ -8,6 +8,18 @@ TextureImporter:
   - first:
       213: -761887118410055393
     second: Gun
+  - first:
+      213: -3436821693910558372
+    second: Weapons_0
+  - first:
+      213: 8490086079740990167
+    second: Weapons_1
+  - first:
+      213: 9147546874185701050
+    second: Weapons_2
+  - first:
+      213: -8951780388439148649
+    second: Weapons_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -116,7 +128,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sword
+      name: Weapons_0
       rect:
         serializedVersion: 2
         x: 0
@@ -130,14 +142,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c7aea0ba76ebbd40800000000000000
-      internalID: 5601323976189978565
+      spriteID: c59da12e0e4fd40d0800000000000000
+      internalID: -3436821693910558372
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gun
+      name: Weapons_1
       rect:
         serializedVersion: 2
         x: 16
@@ -151,8 +163,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f110934d3bb3d65f0800000000000000
-      internalID: -761887118410055393
+      spriteID: 7d2537f9e48d2d570800000000000000
+      internalID: 8490086079740990167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Weapons_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab6d2129a6d92fe70800000000000000
+      internalID: 9147546874185701050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Weapons_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 797b6cf4a23e4c380800000000000000
+      internalID: -8951780388439148649
       vertices: []
       indices: 
       edges: []

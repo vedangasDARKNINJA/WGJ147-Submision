@@ -18,7 +18,7 @@ public class PlatformTransformControl : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!playerOnMe)
         {

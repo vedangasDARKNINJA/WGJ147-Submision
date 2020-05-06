@@ -12,7 +12,6 @@ public class AutomatedPlatformEditor : Editor
     bool snapOn;
     SelectionInfo selectionInfo;
 
-
     private void OnEnable()
     {
         automatedPlatform = (AutomatedPlatform)target;
@@ -50,6 +49,21 @@ public class AutomatedPlatformEditor : Editor
             {
                 automatedPlatform.pathPoints[i].chainSeparation = automatedPlatform.chainDistance>0? automatedPlatform.chainDistance:0.5f;
                 automatedPlatform.pathPoints[i].ReconfigureChains();
+            }
+            
+            if (automatedPlatform.switchOperated)
+            {
+                if (automatedPlatform.operatorSwitchInstance == null)
+                {                    
+                    automatedPlatform.operatorSwitchInstance = Instantiate(automatedPlatform.operatorSwitchPrefab, automatedPlatform.transform.position, Quaternion.identity, automatedPlatform.transform);
+                }
+            }
+            else
+            {
+                if (automatedPlatform.operatorSwitchInstance != null)
+                {
+                    DestroyImmediate(automatedPlatform.operatorSwitchInstance);
+                }
             }
             
             HandleUtility.Repaint();
