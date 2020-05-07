@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public float damageForceMultiplier = 200f;
     public float velocity;
     public float smooothingTime;
     Vector3 smoothingVelocity;
@@ -52,9 +53,12 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Vector3 scale = transform.localScale;
-            scale.x = Mathf.Sign(crosshair.position.x - transform.position.x);
-            transform.localScale = scale;
+            if (crosshair.gameObject.activeSelf)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x = Mathf.Sign(crosshair.position.x - transform.position.x);
+                transform.localScale = scale;
+            }
         }
         anim.SetFloat("Velocity_X", Mathf.Abs(rb.velocity.x));
         anim.SetFloat("Velocity_Y", rb.velocity.y);
@@ -65,4 +69,18 @@ public class PlayerController : MonoBehaviour
     {
         return Mathf.Sign(crosshair.position.x - transform.position.x) == transform.localScale.x;
     }
+
+    public void TakeDamage(Vector2 direction)
+    {
+        StartCoroutine(HitAnimation());
+        rb.AddForce(damageForceMultiplier*direction, ForceMode2D.Impulse);
+    }
+
+    IEnumerator HitAnimation()
+    {
+        anim.SetBool("Hit",true);
+        yield return new WaitForSeconds(1);
+        anim.SetBool("Hit", false);
+    }
+
 }

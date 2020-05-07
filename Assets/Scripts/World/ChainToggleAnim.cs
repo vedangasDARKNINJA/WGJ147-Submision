@@ -26,4 +26,9 @@ public class ChainToggleAnim : MonoBehaviour
             anim.SetBool("activated", state);
         }
     }
+
+    private void OnDestroy()
+    {
+        GameEvents.current.onSwitchStateChanged -= OnSwitchStateChange;
+    }
 }

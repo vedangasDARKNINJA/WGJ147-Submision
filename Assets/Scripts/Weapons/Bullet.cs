@@ -34,11 +34,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.transform.CompareTag("Enemy"))
-        {
-            Debug.Log("Enemy");
-        }
-        else if(other.transform.CompareTag("PickableItem"))
+        if(other.transform.CompareTag("PickableItem") || other.transform.CompareTag("Enemy"))
         {
             trail.enabled = false;
             spriteRenderer.enabled = false;

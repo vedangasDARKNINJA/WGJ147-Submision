@@ -24,11 +24,13 @@ public class DissolveController : MonoBehaviour
     {
         myCollider.enabled = false;
         spriteRenderer.material.SetFloat("_Fade", toOne ? 0f : 1f);
+        
+        timer = toOne ? 0f : dissolveTime;
         if(currentCoroutine!=null)
         {
             StopCoroutine(currentCoroutine);
         }
-        timer = toOne ? 0f : dissolveTime;
+
         currentCoroutine = toOne ? UnDissolve() : Dissolve();
         StartCoroutine(currentCoroutine);
     }
@@ -36,10 +38,12 @@ public class DissolveController : MonoBehaviour
 
     IEnumerator Dissolve()
     {
-        while(timer>=0)
+        while(Mathf.Clamp01(timer / dissolveTime) > 0)
         {
-            timer -= Time.deltaTime;
-            spriteRenderer.material.SetFloat("_Fade", timer/dissolveTime);
+            Debug.Log("in dissolve");
+            timer -= Time.fixedDeltaTime;
+            timer = Mathf.Clamp(timer, 0, float.MaxValue);
+            spriteRenderer.material.SetFloat("_Fade", Mathf.Clamp01(timer / dissolveTime));
             yield return null;
         }
         
@@ -48,10 +52,12 @@ public class DissolveController : MonoBehaviour
     IEnumerator UnDissolve()
     {
         myCollider.enabled = true;
-        while (timer <dissolveTime)
+        while (timer <= dissolveTime)
         {
-            timer += Time.deltaTime;
-            spriteRenderer.material.SetFloat("_Fade", timer / dissolveTime);
+            Debug.Log("in undissolve");
+            timer += Time.fixedDeltaTime;
+            timer = Mathf.Clamp(timer, 0, float.MaxValue);
+            spriteRenderer.material.SetFloat("_Fade", Mathf.Clamp01(timer / dissolveTime));
             yield return null;
         }
     }

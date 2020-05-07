@@ -6,7 +6,7 @@ using UnityEngine;
 public class Gun : Weapon
 {
     public GameObject bulletPrefab;
-
+    public Transform spawnPoint;
     [SerializeField]
     float timer;
     
@@ -15,7 +15,7 @@ public class Gun : Weapon
         anim.SetTrigger("Attack");
         Vector2 dir = crossHair.position - transform.position;
 
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.identity);
         Bullet b = bullet.GetComponent<Bullet>();
         b.velocity = dir.normalized;
         timer = 0;
@@ -28,7 +28,7 @@ public class Gun : Weapon
         while (timer < reloadTime)
         {
             timer += Time.deltaTime;
-            GameEvents.current.ReloadValueChanged(Mathf.Clamp01(timer/reloadTime));
+            GameEvents.current.ReloadValueChanged(SLIDER_IDS.RELOAD_BAR,Mathf.Clamp01(timer/reloadTime));
             yield return null;
         }
         reloading = false;

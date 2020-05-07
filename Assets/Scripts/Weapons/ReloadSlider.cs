@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ReloadSlider : MonoBehaviour
 {
+    public SLIDER_IDS id;
+
     Slider slider;
 
     // Start is called before the first frame update
@@ -14,9 +16,24 @@ public class ReloadSlider : MonoBehaviour
         GameEvents.current.onReloadValueChanged += OnReloadValueChanged;
     }
 
-    void OnReloadValueChanged(float value)
+    void OnReloadValueChanged(SLIDER_IDS id,float value,bool subtractFromCurrent=false)
     {
-        slider.value = value;
+        if (this.id == id)
+        {
+            if (!subtractFromCurrent)
+            {
+                slider.value = value;
+            }
+            else
+            {
+                slider.value -= value;
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.current.onReloadValueChanged -= OnReloadValueChanged;
     }
 
 }

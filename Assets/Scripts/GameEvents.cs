@@ -27,10 +27,16 @@ public class GameEvents : MonoBehaviour
         onSwitchStateChanged(id,state);
     }
 
-    public event Action<float> onReloadValueChanged;
-    public void ReloadValueChanged(float value)
+    public event Action<SLIDER_IDS,float,bool> onReloadValueChanged;
+    public void ReloadValueChanged(SLIDER_IDS id,float value,bool subtract=false)
     {
-        onReloadValueChanged(value);
+        onReloadValueChanged(id,value,subtract);
     }
 
+
+    public event Action<bool> onFadeStateChange;
+    public void FadeStateChange(bool fadeIn=true)
+    {
+        onFadeStateChange(fadeIn);
+    }
 }

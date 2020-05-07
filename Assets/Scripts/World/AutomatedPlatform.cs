@@ -154,11 +154,9 @@ public class AutomatedPlatform : MonoBehaviour
 
     void OnSwitchStateChanged(int id,bool state)
     {
-        Debug.Log("SwitchChange event");
-        if(this.switchId == id)
+        if(switchId == id)
         {
             activated = state;
-            Debug.Log("activated: " + activated);
             if (currentCoroutine != null)
             {
                 StopCoroutine(currentCoroutine);
@@ -188,6 +186,14 @@ public class AutomatedPlatform : MonoBehaviour
         StartCoroutine(currentCoroutine);
     }
 
+
+    private void OnDestroy()
+    {
+        if (switchOperated)
+        {
+            GameEvents.current.onSwitchStateChanged -= OnSwitchStateChanged;
+        }
+    }
     #region PATH_METHODS
 
     [System.Serializable]
@@ -209,7 +215,6 @@ public class AutomatedPlatform : MonoBehaviour
             chainPoints.Clear();
             if (nextPoint.Equals(Vector2.negativeInfinity))
             {
-                Debug.Log("Infinite distance");
                 return;
             }
 
@@ -235,9 +240,6 @@ public class AutomatedPlatform : MonoBehaviour
         {
             pathPoints[pathPoints.Count - 1].nextPoint = point;
             pathPoints[pathPoints.Count - 1].ReconfigureChains();
-
-            Debug.Log("start: " + pathPoints[pathPoints.Count - 1].startPoint);
-            Debug.Log("next: " + pathPoints[pathPoints.Count - 1].nextPoint);
         }
         pathPoints.Add(new PathInfo(point,chainDistance));
         if (mode == PLATFORM_MODE.CYCLIC && pathPoints.Count>2)
