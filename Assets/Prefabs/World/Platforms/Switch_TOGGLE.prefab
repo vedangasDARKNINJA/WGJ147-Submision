@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 2531087683638376686}
   - component: {fileID: 2531087683638376681}
   - component: {fileID: 2531087683638376687}
-  m_Layer: 11
-  m_Name: Switch
-  m_TagString: Switch
+  - component: {fileID: 8508484060908214887}
+  m_Layer: 12
+  m_Name: Switch_TOGGLE
+  m_TagString: PickableItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -52,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 8292af219b1594f429583d3ad2e4cef3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,4 +133,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fabac49bcb28af49a5a4f8a7f8f0d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchActive: 0
+  id: 0
+  initialStateActive: 0
+  facingRight: 0
+--- !u!114 &8508484060908214887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2531087683638376682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2150f660a43c394882302ff81056e41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveTime: 0.3

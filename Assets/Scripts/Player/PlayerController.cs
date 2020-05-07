@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb;
     Animator anim;
-    
+    public Transform crosshair;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +50,19 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = Vector3.one;
         }
+        else
+        {
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Sign(crosshair.position.x - transform.position.x);
+            transform.localScale = scale;
+        }
         anim.SetFloat("Velocity_X", Mathf.Abs(rb.velocity.x));
         anim.SetFloat("Velocity_Y", rb.velocity.y);
+    }
+
+
+    public bool CanFire()
+    {
+        return Mathf.Sign(crosshair.position.x - transform.position.x) == transform.localScale.x;
     }
 }

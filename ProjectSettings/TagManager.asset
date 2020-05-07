@@ -4,7 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Switch
+  - Enemy
+  - PickableItem
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -17,8 +19,8 @@ TagManager:
   - Ground
   - Player
   - Enemies
+  - Bullets
   - PickableItems
-  - 
   - 
   - 
   - 

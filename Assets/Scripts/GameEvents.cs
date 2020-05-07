@@ -27,4 +27,10 @@ public class GameEvents : MonoBehaviour
         onSwitchStateChanged(id,state);
     }
 
+    public event Action<float> onReloadValueChanged;
+    public void ReloadValueChanged(float value)
+    {
+        onReloadValueChanged(value);
+    }
+
 }

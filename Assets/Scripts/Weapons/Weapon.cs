@@ -5,8 +5,12 @@ using UnityEngine;
 
 public abstract class Weapon:MonoBehaviour
 {
+    
     protected Animator anim;
-    protected abstract void Attack();
+    public bool reloading;
+    public float reloadTime;
+    public Transform crossHair;
+    public abstract void Attack();
 
     protected void Start()
     {
